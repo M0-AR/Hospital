@@ -1,0 +1,8 @@
+FROM python:3.8
+
+RUN pip install pydicom
+
+COPY generate_dicom.py /app/generate_dicom.py
+WORKDIR /app
+
+CMD ["python", "generate_dicom.py"]
