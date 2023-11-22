@@ -1,0 +1,36 @@
+Shell History Capture Report
+
+Objective:
+To capture and save the command-line history into a file for later review or auditing purposes. This process aids in tracking commands executed on a server for troubleshooting or historical analysis.
+
+Methodology:
+A script (save_history.sh) was created to output the command history to a text file. Special attention was required to ensure that the history from the current interactive shell session was captured, as by default, scripts execute in their own subshell and do not have access to the interactive shell's history.
+
+Execution:
+The script was executed in the current shell environment using the source command to ensure that it had access to the interactive history. The source command is necessary because it executes the script in the current shell context, preserving the environment and session history.
+
+Script Content:
+'''
+#!/bin/bash
+TODAY=$(date +"%Y-%m-%d")
+FILE_NAME="history_$TODAY.txt"
+history > "$FILE_NAME"
+'''
+/dpsuhuro/home/mohash/docs/history
+
+Commands Used:
+	- source ./save_history.sh: Executes the script in the current shell session.
+	- history > history_2023-11-21.txt: Directly saves the history to a file when executed within an interactive shell.
+
+Output:
+The history of the current session's commands was successfully saved to a file named with the current date, formatted as history_YYYY-MM-DD.txt.
+
+Location:
+The script and the output files are located in the user's home directory or the specified working directory where the script was executed.
+
+Next Steps for Users:
+	- To save the history, navigate to the directory containing save_history.sh and execute source ./save_history.sh.
+	- To view the saved history, use cat or a text editor to open the generated .txt file.
+
+Note for Future Users:
+This script must be sourced in the context of an interactive shell to properly capture the history. Direct execution will not produce the desired outcome as it runs in a subshell which does not share the same history.

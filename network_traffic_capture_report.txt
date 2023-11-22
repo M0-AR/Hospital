@@ -1,0 +1,53 @@
+Network Traffic Capture Report
+
+Objective:
+The goal was to establish a continuous monitoring system for the network traffic coming to the server, specifically targeting the network interface associated with Docker, to aid in diagnostics and troubleshooting, especially concerning communications with the DICOM server.
+
+Tools Used:
+- tcpdump: A powerful command-line packet analyzer tool used for network diagnostics and traffic capture.
+- nohup: A POSIX command used to run another command that ignores hangup signals, allowing it to run continuously in the background. It ensures that the command doesn't terminate when the terminal session ends.
+- &: A shell command used to run the preceding command in the background as a job.
+
+Procedure:
+- Initial Attempt:
+  Attempted to initiate a traffic capture using tcpdump, saving the output to a specific directory. However, encountered permission issues that prevented the capture file from being written.
+
+- Directory Permission Issues:
+  Created a directory network/capture_network_traffic/ to store the capture files and attempted to change its ownership to the current user. This was met with a "Permission denied" error, indicating issues with directory access.
+
+- Resolution of Permission Issues:
+  Opted to use the /tmp directory to avoid permissions complications, as it is universally writable.
+
+- Background Process Setup:
+  To facilitate continuous capture without terminal dependency, used the nohup command in conjunction with & to run tcpdump in the background.
+
+Final Command Used: 
+	- 'sudo nohup tcpdump -i docker0 -w /tmp/capture.pcap &'
+
+
+Outcome:
+- The tcpdump process was started successfully and detached from the terminal, allowing packet capture to persist independently of user sessions.
+- Output and potential errors were redirected to /root/nohup.out.
+
+Further Recommendations:
+- Regularly check the size of the capture file to ensure sufficient disk space.
+- Schedule routine reviews of the capture data for insights and potential issue identification.
+- Consider implementing log rotation to manage the size of the capture file and associated outputs.
+- Document the PID of the tcpdump process for easy reference when stopping or restarting the capture.
+
+Documentation:
+- PID for tcpdump: Noted during execution, required for process management.
+- Capture File Location: /tmp/capture.pcap
+- Output Redirection: /root/nohup.out
+
+Next Steps:
+- Monitor the `nohup.out` file for errors or important messages using: 
+	- 'sudo tail -f /root/nohup.out'
+
+- Analyze the capture file using the following command for `tcpdump`:
+	- 'sudo tcpdump -r /tmp/capture.pcap'
+
+- For a more in-depth analysis with a graphical user interface, transfer the `.pcap` file to a system with a GUI and run Wireshark:
+	- 'wireshark /path/to/capture.pcap' (Note: Replace `/path/to/capture.pcap` with the actual path to the capture file if you've moved it from `/tmp/capture.pcap`.)
+
+By following these steps, you can effectively monitor and analyze the network traffic being captured on your server. This is essential for diagnosing any network-related issues or for routine network analysis tasks.
