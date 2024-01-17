@@ -7,8 +7,9 @@
 
 from moviepy.editor import VideoFileClip
 
-video_filename = './test.mp4'
-output_gif_filename = 'output_small.gif'
+# video_filename = './test.mp4'
+video_filename = 'C:\\Users\\UKF\\Desktop\\SR.mp4'
+output_gif_filename = 'sr.gif'
 
 # Load the video file
 clip = VideoFileClip(video_filename)
