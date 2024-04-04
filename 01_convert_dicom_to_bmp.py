@@ -67,7 +67,7 @@ def convert_dicom_to_bmp(patient_folder, output_folder):
 
                 # Convert to BMP and save
                 image = Image.fromarray(pixel_data_rgb)
-                bmp_filename = f"img-{series_number}-{counter_str}.bmp"
+                bmp_filename = f"img-0{series_number}-{counter_str}.bmp"
                 bmp_path = os.path.join(output_dir_structure, bmp_filename)
                 image.save(bmp_path, 'BMP')
             except Exception as e:
